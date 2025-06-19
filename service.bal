@@ -5,7 +5,8 @@ listener http:Listener userLsnr = new (8080);
 
 service /users on userLsnr {
 
-    // ------------ CREATE (bulk) ----------------------
+    //  CREATE (bulk) 
+    //Insert one or more users in a single request
     isolated resource function post .(@http:Payload db:User[] users)
             returns http:Created|http:BadRequest|error {
 
@@ -18,7 +19,8 @@ service /users on userLsnr {
         return http:CREATED;
     }
 
-    // ------------ READ single ------------------------
+    //  READ single 
+    //Fetch a user by primary key
     isolated resource function get [int id]()
             returns db:User|http:NotFound|error {
 
@@ -29,7 +31,8 @@ service /users on userLsnr {
         return row;
     }
 
-    // ------------ SEARCH / list ----------------------
+    // SEARCH / list 
+    //List all users or do a search on first / last name or email
     isolated resource function get .(string? name)
             returns db:User[]|http:InternalServerError|error {
 
@@ -41,7 +44,8 @@ service /users on userLsnr {
         return list;
     }
 
-    // ------------ UPDATE -----------------------------
+    // UPDATE
+    //Replace mutable columns of the user identified by id
     isolated resource function put [int id](@http:Payload db:User u)
             returns http:Ok|http:BadRequest|error {
 
@@ -52,7 +56,8 @@ service /users on userLsnr {
         return http:OK;
     }
 
-    // ------------ DELETE -----------------------------
+    // DELETE
+    //Remove the user identified by id
     isolated resource function delete [int id]()
             returns http:NoContent|http:BadRequest|error {
 
