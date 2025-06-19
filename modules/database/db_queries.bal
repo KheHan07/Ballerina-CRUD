@@ -1,12 +1,20 @@
 import ballerina/sql;
 
-// ---------- INSERT ---------------------------------------------------------
+//INSERT
+# Builds an INSERT statement for a new row in the users table.
+#
+# + u - The payload contain first name,last name,email, and role values
+# + return - fully parameterized INSERT VALUES () query
 public isolated function qInsert(User u) returns sql:ParameterizedQuery => `
     INSERT INTO users (first_name, last_name, email, role)
            VALUES (${u.firstName}, ${u.lastName}, ${u.email}, ${u.role})
 `;
 
-// ---------- SELECT by id ----------------------------------------------------
+//SELECT by id
+# Builds a SELECT statement to get one user by id.
+#
+# + id - user_id
+# + return - SELECT … WHERE user_id = ${id} query
 public isolated function qById(int id) returns sql:ParameterizedQuery => `
     SELECT user_id   AS id,
            first_name AS firstName,
@@ -19,7 +27,9 @@ public isolated function qById(int id) returns sql:ParameterizedQuery => `
      WHERE user_id = ${id}
 `;
 
-// ---------- LIST / SEARCH ---------------------------------------------------
+//SEARCH to getall
+# Returns all users.
+# + return - A `SELECT … FROM users` query
 public isolated function qAll() returns sql:ParameterizedQuery => `
     SELECT user_id   AS id,
            first_name AS firstName,
@@ -31,6 +41,10 @@ public isolated function qAll() returns sql:ParameterizedQuery => `
       FROM users
 `;
 
+# search SELECT that matches first/last name or email.
+#
+# + like - A pattern
+# + return - A `SELECT … WHERE … LIKE` query
 public isolated function qSearch(string like) returns sql:ParameterizedQuery => `
     SELECT user_id   AS id,
            first_name AS firstName,
@@ -45,7 +59,12 @@ public isolated function qSearch(string like) returns sql:ParameterizedQuery => 
         OR email      LIKE ${like}
 `;
 
-// ---------- UPDATE ----------------------------------------------------------
+//UPDATE
+# UPDATE statement for the row identified by id.
+#
+# + id - id of the row to modify 
+# + u - new values to write into `first_name`, `last_name`, `email`, and `role`
+# + return - A `UPDATE … SET … WHERE user_id = ${id}` query
 public isolated function qUpdate(int id, User u) returns sql:ParameterizedQuery
         => `
     UPDATE users
@@ -56,7 +75,11 @@ public isolated function qUpdate(int id, User u) returns sql:ParameterizedQuery
      WHERE user_id    = ${id}
 `;
 
-// ---------- DELETE ----------------------------------------------------------
+//DELETE
+# delete statement that removes one row by id.
+#
+# + id - `user_id` value
+# + return - `DELETE FROM users WHERE user_id = ${id}` query
 public isolated function qDelete(int id) returns sql:ParameterizedQuery => `
     DELETE FROM users WHERE user_id = ${id}
 `;
