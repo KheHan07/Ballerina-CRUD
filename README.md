@@ -14,20 +14,8 @@ Prerequisites
     Ballerina (2201.12.6 or later)
     MySQL Server (5.7 or later)
 
-Project Structure
+![Screenshot from 2025-06-20 14-10-39](https://github.com/user-attachments/assets/0ff67574-56df-4efe-a1ac-33574c9b97f4)
 
- ├── Ballerina.toml
- ├── Config.toml
- ├── service.bal
- ├── resources/
- │   └── database/
- │       └── userdb1.sql
- └── modules/
-     └── database/
-         ├── types.bal
-         ├── client.bal
-         ├── db_queries.bal
-         └── db_functions.bal
 
 
 Example Usage
