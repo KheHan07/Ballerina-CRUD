@@ -7,10 +7,10 @@ service /users on userLsnr {
 
     //  CREATE (bulk) 
     //Insert one or more users in a single request
-    isolated resource function post .(@http:Payload db:User[] users)
+    isolated resource function post .(@http:Payload User[] users)
             returns http:Created|http:BadRequest|error {
 
-        foreach db:User u in users {
+        foreach User u in users {
             int|error id = db:insertUser(u);
             if id is error {
                 return http:BAD_REQUEST;
@@ -22,9 +22,9 @@ service /users on userLsnr {
     //  READ single 
     //Fetch a user by primary key
     isolated resource function get [int id]()
-            returns db:User|http:NotFound|error {
+            returns User|http:NotFound|error {
 
-        db:User|error? row = db:getUser(id);
+        User|error? row = db:getUser(id);
         if row is () {
             return http:NOT_FOUND;
         }
@@ -34,10 +34,10 @@ service /users on userLsnr {
     // SEARCH / list 
     //List all users or do a search on first / last name or email
     isolated resource function get .(string? name)
-            returns db:User[]|http:InternalServerError|error {
+            returns User[]|http:InternalServerError|error {
 
         string like = name is () ? "" : "%" + name.toString() + "%";
-        db:User[]|error list = db:searchUsers(like);
+        User[]|error list = db:searchUsers(like);
         if list is error {
             return http:INTERNAL_SERVER_ERROR;
         }
@@ -46,7 +46,7 @@ service /users on userLsnr {
 
     // UPDATE
     //Replace mutable columns of the user identified by id
-    isolated resource function put [int id](@http:Payload db:User u)
+    isolated resource function put [int id](@http:Payload User u)
             returns http:Ok|http:BadRequest|error {
 
         int|error rows = db:updateUser(id, u);
