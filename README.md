@@ -1,3 +1,5 @@
+DOC : https://docs.google.com/document/d/1vgupaMZzcrBFDTDlMaFQkAVIvBHQBSuGYUwsBAsrVQE/edit?usp=sharing
+
 A Ballerina-based REST service for managing users with a MySQL backend.
 Provides CRUD (Create, Read, Update, Delete) operations and supports bulk operations and fuzzy search.
 
