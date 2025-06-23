@@ -1,4 +1,5 @@
 import ballerina/sql;
+import ballerinax/mysql;
 
 # Configuration values required to open a MySQL connection.
 #
@@ -27,11 +28,19 @@ public type DatabaseConfig record {|
 # + createdOn - Timestamp recorded by MySQL when the row was first inserted
 # + updatedOn - Timestamp updated automatically on every modification
 public type User record {|
-    int?   id;     
-    string firstName;
-    string lastName;
-    string email;
-    string role;
-    string? createdOn;
-    string? updatedOn;
+    int?    id?;           //optional primary-key
+    string  firstName;
+    string  lastName;
+    string  email;
+    string  role;
+    string? createdOn?;    //optional timestamp
+    string? updatedOn?;    //optional timestamp
+|};
+
+# Extended configuration that includes database connection options.
+// this extends it by adding extra settings like SSL and connection timeout
+type DatabaseClientConfig record {|
+    *DatabaseConfig;
+    # Additional configurations related to the MySQL database connection
+    mysql:Options? options;
 |};

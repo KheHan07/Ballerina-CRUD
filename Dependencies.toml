@@ -337,6 +337,21 @@ dependencies = [
 
 [[package]]
 org = "ballerinax"
+name = "java.jdbc"
+version = "1.14.0"
+dependencies = [
+	{org = "ballerina", name = "io"},
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "lang.string"},
+	{org = "ballerina", name = "sql"},
+	{org = "ballerina", name = "time"}
+]
+modules = [
+	{org = "ballerinax", packageName = "java.jdbc", moduleName = "java.jdbc"}
+]
+
+[[package]]
+org = "ballerinax"
 name = "mysql"
 version = "1.16.0"
 dependencies = [
@@ -367,6 +382,7 @@ version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "http"},
 	{org = "ballerina", name = "sql"},
+	{org = "ballerinax", name = "java.jdbc"},
 	{org = "ballerinax", name = "mysql"},
 	{org = "ballerinax", name = "mysql.driver"}
 ]

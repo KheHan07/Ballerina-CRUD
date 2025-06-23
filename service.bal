@@ -3,6 +3,12 @@ import khehan/tryone.database as db;
 
 listener http:Listener userLsnr = new (8080);
 
+@http:ServiceConfig {
+    cors: {
+        allowOrigins: ["http://localhost:5173"],
+        allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    }
+}
 service /users on userLsnr {
 
     //  CREATE (bulk) 
