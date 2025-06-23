@@ -11,8 +11,10 @@ listener http:Listener userLsnr = new (8080);
 }
 service /users on userLsnr {
 
-    //  CREATE (bulk) 
-    //Insert one or more users in a single request
+    # Create one or more users.
+    # + users - Array of user objects supplied in the request payload
+    # + return - `201 Created` on total success, `400 BadRequest` when at least one
+    #            insert fails, or a generic `error` for unexpected failures
     isolated resource function post .(@http:Payload User[] users)
             returns http:Created|http:BadRequest|error {
 
@@ -25,8 +27,10 @@ service /users on userLsnr {
         return http:CREATED;
     }
 
-    //  READ single 
-    //Fetch a user by primary key
+    # Fetch a single user by its primary-key ID.
+    # + id - Path parameter identifying the user
+    # + return - The `User` record with 200 OK on success, `404 NotFound`
+    #            if no row matches, or an `error` for unexpected failures
     isolated resource function get [int id]()
             returns User|http:NotFound|error {
 
@@ -37,8 +41,13 @@ service /users on userLsnr {
         return row;
     }
 
-    // SEARCH / list 
-    //List all users or do a search on first / last name or email
+    
+    # List all users or search by first / last name or email.
+    # If `name` is supplied, a case-insensitive “LIKE %name%” search is
+    # performed on first name, last name, and email.  
+    # + name - Optional query parameter used as the search term
+    # + return - Array of users with 200 OK on success, 500
+    #            InternalServerError if the DB call fails, or error
     isolated resource function get .(string? name)
             returns User[]|http:InternalServerError|error {
 
@@ -50,8 +59,11 @@ service /users on userLsnr {
         return list;
     }
 
-    // UPDATE
-    //Replace mutable columns of the user identified by id
+    # Update (replace) mutable columns of a user identified by ID.
+    # + id - Path parameter identifying the user to update
+    # + u - JSON payload containing the new field values
+    # + return - 200 OK if exactly one row is updated, `400 BadRequest`
+    #            if the update fails or affects zero rows, or `error`
     isolated resource function put [int id](@http:Payload User u)
             returns http:Ok|http:BadRequest|error {
 
@@ -62,8 +74,10 @@ service /users on userLsnr {
         return http:OK;
     }
 
-    // DELETE
-    //Remove the user identified by id
+    # Delete the user identified by ID.
+    # + id - Path parameter identifying the user to delete
+    # + return - 204 NoContent if the row is deleted, `400 BadRequest`
+    #            if no rows were affected, or `error`
     isolated resource function delete [int id]()
             returns http:NoContent|http:BadRequest|error {
 
