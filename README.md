@@ -32,4 +32,82 @@ It supports full **CRUD** and **bulk** operations, fuzzy search, and ships with 
 ---
 
 ## 🗂️ Project Structure
+├── Ballerina.toml
+├── Config.toml ← Runtime configuration
+├── service.bal ← HTTP service + routes
+├── resources/
+│ └── database/
+│ └── userdb1.sql ← DDL + seed data
+└── modules/
+└── database/
+├── types.bal ← Record/class definitions
+├── client.bal ← MySQL client init
+├── db_queries.bal ← SQL-string constants
+└── db_functions.bal ← Reusable DB helpers
 
+
+---
+
+## 🚀 Quick Start
+
+### 1 Install prerequisites
+
+| Tool        | Minimum version | Install link                              |
+|-------------|-----------------|-------------------------------------------|
+| Ballerina   | `2201.12.6`     | `brew install ballerina` / [other methods](https://ballerina.io/downloads/) |
+| MySQL Server| `5.7`           | `apt install mysql-server` / Docker etc.  |
+
+### 2 Clone & init DB
+
+```bash
+git clone https://github.com/<your-org>/ballerina-user-service.git
+cd ballerina-user-service
+
+# Create schema & table
+mysql -u root -p < resources/database/userdb1.sql
+
+
+[ballerinax.mysql.client]
+host     = "localhost"
+port     = 3306
+user     = "root"
+password = "root"
+database = "userdb1"
+
+poolOptions {
+  maxOpenConnections = 10
+  maxIdleConnections = 2
+}
+
+Run the service 
+
+bal run
+# or build & run
+bal build
+bal run target/bin/user_service.jar
+
+🖥️ Example cURL Commands
+# 1 Create Users (bulk)
+curl -X POST http://localhost:8080/users \
+  -H "Content-Type: application/json" \
+  -d '[
+        { "id": 0, "firstName": "Ada",   "lastName": "Lovelace", "email": "ada@example.com",   "role": "engineer" },
+        { "id": 0, "firstName": "Grace", "lastName": "Hopper",   "email": "grace@example.com", "role": "admiral" }
+      ]'
+
+# 2 List / Search
+curl http://localhost:8080/users
+curl http://localhost:8080/users?name=Ada
+curl http://localhost:8080/users?email=example.com
+
+# 3 Get by ID
+curl http://localhost:8080/users/1
+
+# 4 Update
+curl -X PUT http://localhost:8080/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{ "id": 1, "firstName": "Ada", "lastName": "Lovelace",
+        "email": "ada@example.com", "role": "chief engineer" }'
+
+# 5 Delete
+curl -X DELETE http://localhost:8080/users/1
