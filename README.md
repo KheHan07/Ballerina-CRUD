@@ -1,86 +1,35 @@
-A Ballerina-based REST service for managing users with a MySQL backend.
-Provides CRUD (Create, Read, Update, Delete) operations and supports bulk operations and fuzzy search.
+# 🐘 User Management REST Service (Ballerina + MySQL)
 
-Features
-    Create Users (Bulk Insert): Add one or more users in a single request.
-    Get User: Retrieve a user by their unique ID.
-    Search Users: List all users or search by name/email.
-    Update User: Modify user details by ID.
-    Delete User: Remove a user by ID.
+A production-ready Ballerina service that exposes a REST/JSON API for managing users with a MySQL backend.  
+It supports full **CRUD** and **bulk** operations, fuzzy search, and ships with OpenAPI docs out of the box.
 
-Prerequisites
-    Ballerina (2201.12.6 or later)
-    MySQL Server (5.7 or later)
+> **Why Ballerina?**  
+> Declarative networking, built-in database client, cloud-native friendliness, and first-class OpenAPI tooling—all in one modern language.
 
-Project Structure
+---
 
- ├── Ballerina.toml
- ├── Config.toml
- ├── service.bal
- ├── resources/
- │   └── database/
- │       └── userdb1.sql
- └── modules/
-     └── database/
-         ├── types.bal
-         ├── client.bal
-         ├── db_queries.bal
-         └── db_functions.bal
+## ✨ Features
 
+| Capability                | Details                                                         |
+|---------------------------|-----------------------------------------------------------------|
+| **Create users (bulk)**   | Insert one **or many** users in a single POST                   |
+| **Get user**              | Retrieve a single user by `id`                                  |
+| **Search / List users**   | `GET /users` lists all, or filter by `name` / `email` (fuzzy)   |
+| **Update user**           | `PUT /users/{id}` updates any mutable field                     |
+| **Delete user**           | Hard-delete user by `id`                                        |
+| **OpenAPI-first**         | Auto-generate OpenAPI 3 spec & Swagger UI                      |
+| **Config-driven**         | DSN, port, pool size, etc. via `Config.toml`                    |
+| **Docker-ready**          | One-command container build (optional)                          |
 
-Example Usage
-Create Users
+---
 
-bash
-curl -X POST "http://localhost:8080/users" \
-  -H "Content-Type: application/json" \
-  -d '[{
-        "id": 0,
-        "firstName": "Ada",
-        "lastName": "Lovelace",
-        "email": "ada@example.com",
-        "role": "engineer",
-        "createdOn": "",
-        "updatedOn": ""
-      },
-      {
-        "id": 0,
-        "firstName": "Grace",
-        "lastName": "Hopper",
-        "email": "grace@example.com",
-        "role": "admiral",
-        "createdOn": "",
-        "updatedOn": ""
-      }]'
-List/Search Users
+## 🛠️ Tech Stack
 
-bash
-curl "http://localhost:8080/users"
-curl "http://localhost:8080/users?name=Ada"
-Get User by ID
+* **Language / Runtime:** [Ballerina Swan Lake 2201.12.6+](https://ballerina.io)  
+* **Database:** MySQL 5.7+ (MariaDB 10.5+ works too)  
+* **HTTP:** Ballerina `http` module (listens on `0.0.0.0:8080` by default)
 
-bash
-curl "http://localhost:8080/users/1"
-Update User
+---
 
-bash
-curl -X PUT "http://localhost:8080/users/1" \
-  -H "Content-Type: application/json" \
-  -d '{
-        "id": 1,
-        "firstName": "Ada",
-        "lastName": "Lovelace",
-        "email": "ada@example.com",
-        "role": "chief engineer",
-        "createdOn": "",
-        "updatedOn": ""
-      }'
-Delete User
+## 🗂️ Project Structure
 
-bash
-curl -X DELETE "http://localhost:8080/users/1"
-OpenAPI Documentation
-Generate an OpenAPI specification for your API:
-
-
-Enjoy building with Ballerina!
