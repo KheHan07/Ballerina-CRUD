@@ -3,11 +3,6 @@
 A production-ready Ballerina service that exposes a REST/JSON API for managing users with a MySQL backend.  
 It supports full **CRUD** and **bulk** operations, fuzzy search, and ships with OpenAPI docs out of the box.
 
-> **Why Ballerina?**  
-> Declarative networking, built-in database client, cloud-native friendliness, and first-class OpenAPI tooling—all in one modern language.
-
----
-
 ## ✨ Features
 
 | Capability                | Details                                                         |
