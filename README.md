@@ -24,8 +24,6 @@ It supports full **CRUD** and **bulk** operations, fuzzy search, and ships with 
 * **Database:** MySQL 5.7+ (MariaDB 10.5+ works too)  
 * **HTTP:** Ballerina `http` module (listens on `0.0.0.0:8080` by default)
 
-
-
 ## 🚀 Quick Start
 
 ### 1 Install prerequisites
@@ -57,8 +55,7 @@ poolOptions {
   maxIdleConnections = 2
 }
 
-Run the service 
-
+###Run the service 
 bal run
 # or build & run
 bal build
