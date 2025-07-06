@@ -29,24 +29,7 @@ It supports full **CRUD** and **bulk** operations, fuzzy search, and ships with 
 * **Database:** MySQL 5.7+ (MariaDB 10.5+ works too)  
 * **HTTP:** Ballerina `http` module (listens on `0.0.0.0:8080` by default)
 
----
 
-## 🗂️ Project Structure
-├── Ballerina.toml
-├── Config.toml ← Runtime configuration
-├── service.bal ← HTTP service + routes
-├── resources/
-│ └── database/
-│ └── userdb1.sql ← DDL + seed data
-└── modules/
-└── database/
-├── types.bal ← Record/class definitions
-├── client.bal ← MySQL client init
-├── db_queries.bal ← SQL-string constants
-└── db_functions.bal ← Reusable DB helpers
-
-
----
 
 ## 🚀 Quick Start
 
